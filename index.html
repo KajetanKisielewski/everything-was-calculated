@@ -122,6 +122,19 @@
             width: 90%;
             margin-top: 10px;
         }
+
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        legend {
+            margin: 20px 0;
+            padding-top: 20px;
+            text-align: center;
+
+        }
     </style>
 </head>
 <body>
@@ -136,8 +149,8 @@
         </select>
     </div>
 
-    <div class="form-group">
-        <label>Poziom skomplikowania:</label>
+    <fieldset class="form-group">
+        <legend>Poziom skomplikowania:</legend>
         <div>
             <input type="radio" name="complexity" value="1" id="basic" checked>
             <label for="basic">Podstawowy - x1</label>
@@ -150,7 +163,7 @@
             <input type="radio" name="complexity" value="2" id="advanced">
             <label for="advanced">Zaawansowany - x2</label>
         </div>
-    </div>
+    </fieldset>
 
     <div class="form-group">
         <label for="hours">Liczba godzin:</label>
@@ -158,8 +171,8 @@
         <input type="range" id="hoursSlider" min="0" max="99" value="0">
     </div>
 
-    <div class="form-group">
-        <label>Dodatkowe opcje:</label>
+    <fieldset class="form-group">
+        <legend>Dodatkowe opcje:</legend>
         <div class="checkbox-group">
             <input type="checkbox" id="support" value="50">
             <label for="support">Wsparcie techniczne - 50 zł</label>
@@ -168,7 +181,7 @@
             <input type="checkbox" id="revisions" value="30">
             <label for="revisions">Dodatkowe poprawki - 30 zł</label>
         </div>
-    </div>
+    </fieldset>
 
     <div class="button-group">
         <button id="calculateButton">Oblicz</button>
@@ -186,16 +199,9 @@
     const support = document.getElementById('support');
     const revisions = document.getElementById('revisions');
     const resultDisplay = document.getElementById('result');
-    const calculateButton = document.getElementById('calculateButton');
-    const resetButton = document.getElementById('resetButton');
 
-    hoursInput.addEventListener('input', () => {
-        hoursSlider.value = hoursInput.value;
-    });
-
-    hoursSlider.addEventListener('input', () => {
-        hoursInput.value = hoursSlider.value;
-    });
+    hoursInput.addEventListener('input', () => hoursSlider.value = hoursInput.value);
+    hoursSlider.addEventListener('input', () => hoursInput.value = hoursSlider.value);
 
     function calculate() {
         let serviceCost = Number(service.value);
@@ -208,7 +214,7 @@
         resultDisplay.textContent = `Wynik: ${result} zł`;
     }
 
-    calculateButton.addEventListener('click', calculate);
+    document.getElementById('calculateButton').addEventListener('click', calculate);
 
     function reset() {
         service.selectedIndex = 0;
@@ -220,7 +226,7 @@
         resultDisplay.textContent = 'Wynik: 0 zł';
     }
 
-    resetButton.addEventListener('click', reset);
+    document.getElementById('resetButton').addEventListener('click', reset);
 </script>
 
 </body>
