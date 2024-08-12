@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Kosztów Usług</title>
+    <style>
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            min-height: 90vh;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            width: auto;
+            max-width: 100%;
+            margin: 20px;
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group label {
+            flex: 1;
+            margin: 10px 0;
+        }
+
+        select,
+        input[type="number"],
+        input[type="range"],
+        .checkbox-group {
+            flex: 2;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        #service,
+        #hours,
+        .checkbox-group {
+            max-width: 300px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007BFF;
+            text-align: center;
+        }
+
+        button {
+            width: 100%;
+            max-width: 45%;
+            margin-top: 10px;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #FFF;
+            font-size: 1em;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #hoursSlider {
+            width: 90%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-group">
+        <label for="service">Wybierz usługę:</label>
+        <select id="service">
+            <option value="100">Projektowanie Graficzne - 100 zł/godz</option>
+            <option value="150">Tworzenie Stron Internetowych - 150 zł/godz</option>
+            <option value="200">SEO - 200 zł/godz</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Poziom skomplikowania:</label>
+        <div>
+            <input type="radio" name="complexity" value="1" id="basic" checked>
+            <label for="basic">Podstawowy - x1</label>
+        </div>
+        <div>
+            <input type="radio" name="complexity" value="1.5" id="medium">
+            <label for="medium">Średni - x1.5</label>
+        </div>
+        <div>
+            <input type="radio" name="complexity" value="2" id="advanced">
+            <label for="advanced">Zaawansowany - x2</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="hours">Liczba godzin:</label>
+        <input type="number" id="hours" min="0" max="99" value="0">
+        <input type="range" id="hoursSlider" min="0" max="99" value="0">
+    </div>
+
+    <div class="form-group">
+        <label>Dodatkowe opcje:</label>
+        <div class="checkbox-group">
+            <input type="checkbox" id="support" value="50">
+            <label for="support">Wsparcie techniczne - 50 zł</label>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="revisions" value="30">
+            <label for="revisions">Dodatkowe poprawki - 30 zł</label>
+        </div>
+    </div>
+
+    <button id="calculateButton">Oblicz</button>
+    <button id="resetButton">Reset</button>
+
+    <div class="result" id="result">Wynik: 0 zł</div>
+</div>
+
+<script>
+    const service = document.getElementById('service');
+    const complexity = document.getElementsByName('complexity');
+    const hoursInput = document.getElementById('hours');
+    const hoursSlider = document.getElementById('hoursSlider');
+    const support = document.getElementById('support');
+    const revisions = document.getElementById('revisions');
+    const resultDisplay = document.getElementById('result');
+    const calculateButton = document.getElementById('calculateButton');
+    const resetButton = document.getElementById('resetButton');
+
+    hoursInput.addEventListener('input', () => {
+        hoursSlider.value = hoursInput.value;
+    });
+
+    hoursSlider.addEventListener('input', () => {
+        hoursInput.value = hoursSlider.value;
+    });
+
+    function calculate() {
+        let serviceCost = Number(service.value);
+        let complexityFactor = Number([...complexity].find(c => c.checked).value);
+        let hours = Number(hoursInput.value);
+        let supportCost = support.checked ? Number(support.value) : 0;
+        let revisionsCost = revisions.checked ? Number(revisions.value) : 0;
+
+        let result = (serviceCost * complexityFactor * hours) + supportCost + revisionsCost;
+        resultDisplay.textContent = `Wynik: ${result} zł`;
+    }
+
+    calculateButton.addEventListener('click', calculate);
+
+    function reset() {
+        service.selectedIndex = 0;
+        document.querySelector('input[name="complexity"][value="1"]').checked = true;
+        hoursInput.value = 0;
+        hoursSlider.value = 0;
+        support.checked = false;
+        revisions.checked = false;
+        resultDisplay.textContent = 'Wynik: 0 zł';
+    }
+
+    resetButton.addEventListener('click', reset);
+</script>
+
+</body>
+</html>
