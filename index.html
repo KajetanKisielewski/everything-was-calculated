@@ -148,34 +148,34 @@
 <div class="container">
     <div class="form-group">
         <label for="service">Wybierz usługę:</label>
-        <select id="service">
+        <select id="service" aria-labelledby="serviceLabel">
             <option value="100">Projektowanie Graficzne - 100 zł/godz</option>
             <option value="150">Tworzenie Stron Internetowych - 150 zł/godz</option>
             <option value="200">SEO - 200 zł/godz</option>
         </select>
     </div>
 
-    <fieldset class="form-group">
-        <legend>Poziom skomplikowania:</legend>
+    <fieldset class="form-group" aria-labelledby="complexityLabel">
+        <legend id="complexityLabel">Poziom skomplikowania:</legend>
         <div>
-            <input type="radio" name="complexity" value="1" id="basic" checked>
-            <label for="basic">Podstawowy - x1</label>
+            <input type="radio" name="complexity" value="1" id="basic" checked aria-labelledby="basicLabel">
+            <label for="basic" id="basicLabel">Podstawowy - x1</label>
         </div>
         <div>
-            <input type="radio" name="complexity" value="1.5" id="medium">
-            <label for="medium">Średni - x1.5</label>
+            <input type="radio" name="complexity" value="1.5" id="medium" aria-labelledby="mediumLabel">
+            <label for="medium" id="mediumLabel">Średni - x1.5</label>
         </div>
         <div>
-            <input type="radio" name="complexity" value="2" id="advanced">
-            <label for="advanced">Zaawansowany - x2</label>
+            <input type="radio" name="complexity" value="2" id="advanced" aria-labelledby="advancedLabel">
+            <label for="advanced" id="advancedLabel">Zaawansowany - x2</label>
         </div>
     </fieldset>
 
     <div class="form-group">
-        <label for="hours">Liczba godzin:</label>
-        <input type="number" id="hours" min="0" max="99" value="0">
-        <input type="range" id="hoursSlider" min="0" max="99" value="0">
-        <div id="hoursError" class="error-message"></div>
+        <label for="hours" id="hoursLabel">Liczba godzin:</label>
+        <input type="number" id="hours" min="0" max="99" value="0" aria-describedby="hoursError">
+        <input type="range" id="hoursSlider" min="0" max="99" value="0" aria-labelledby="hoursLabel">
+        <div id="hoursError" class="error-message" aria-live="polite"></div>
     </div>
 
     <fieldset class="form-group">
